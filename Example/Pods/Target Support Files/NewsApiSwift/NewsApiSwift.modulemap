@@ -1,0 +1,6 @@
+framework module NewsApiSwift {
+  umbrella header "NewsApiSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}
