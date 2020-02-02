@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'NewsApiSwift_Example' do
+  pod 'NewsApiSwift', :path => '../'
+
+  target 'NewsApiSwift_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase' , '~> 2.1.4'
+  end
+end
