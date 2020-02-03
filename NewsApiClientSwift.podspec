@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'NewsApiSwift'
+  s.name             = 'NewsApiClientSwift'
   s.version          = '0.1.0'
   s.summary          = 'Swift client for NewsApi.org. Search worldwide news with code'
 
@@ -15,10 +15,10 @@ Pod::Spec.new do |s|
 Get breaking news headlines, and search for articles from over 30,000 news sources and blogs with our news API
                        DESC
 
-  s.homepage         = 'https://github.com/Adobels/NewsApiSwift'
+  s.homepage         = 'https://github.com/Adobels/NewsApiClientSwift'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Blazej SLEBODA' => 'contact@blazejsleboda.fr' }
-  s.source           = { :git => 'https://github.com/Adobels/NewsApiSwift.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/Adobels/NewsApiClientSwift.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '8.0'
 
