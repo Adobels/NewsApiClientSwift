@@ -1,6 +1,6 @@
 {
   "name": "NewsApiSwift",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "A short description of NewsApiSwift.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/Blazej SLEBODA/NewsApiSwift",
@@ -13,10 +13,10 @@
   },
   "source": {
     "git": "https://github.com/Blazej SLEBODA/NewsApiSwift.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "NewsApiSwift/Classes/**/*"
+  "source_files": "NewsApiSwift/Classes/*"
 }
