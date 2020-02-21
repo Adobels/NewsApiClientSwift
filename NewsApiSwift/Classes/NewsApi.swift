@@ -10,7 +10,7 @@ import Foundation
 
 public class NewsApi {
     
-    let apiKey: String
+    public let apiKey: String
     
     public let baseUrl = URL(string: "https://newsapi.org/v2")!
     public let urlSession: URLSession
@@ -32,7 +32,7 @@ public class NewsApi {
     public init(apiKey: String) {
         self.apiKey = apiKey
         let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = ["X-Api-Key":apiKey]
+        configuration.httpAdditionalHeaders = ["x-api-key":apiKey]
         urlSession = URLSession(configuration: configuration)
     }
     
@@ -48,97 +48,61 @@ public class NewsApi {
         return urlComponents.url!
     }
         
-    public func getRequestTopHeadlines(urlParams: [String: String], callback: @escaping (Result<TopHeadlinesResponseObject, NewsApiError>) -> Void) {
-        
-        let url = self.endpoint(for: .topHeadlines, urlParams)
-        
+    func getRequest<T: Decodable>(url: URL, callback: @escaping (Result<T,NewsApiError>) -> Void ) {
         urlSession.dataTask(with: url) { (data, response, error) in
             debugPrint("NewsApi: \(response.debugDescription)")
             guard error == nil else {
-                callback(.failure(.urlSession(error!)))
+                DispatchQueue.main.async {
+                    callback(.failure(.urlSession(error!)))
+                }
                 return
             }
             
             guard let data = data else {
-                callback(.failure(.dataIsNil))
+                DispatchQueue.main.async {
+                    callback(.failure(.dataIsNil))
+                }
                 return
             }
 
             guard data.isEmpty == false else {
-                callback(.failure(.dataIsEmpty))
+                DispatchQueue.main.async {
+                    callback(.failure(.dataIsEmpty))
+                }
                 return
             }
             
             do {
-                let response = try JSONDecoder().decode(TopHeadlinesResponseObject.self, from: data)
-                callback(.success(response))
+                let response = try JSONDecoder().decode(T.self, from: data)
+                DispatchQueue.main.async {
+                    callback(.success(response))
+                }
             } catch {
-                callback(.failure(.decoder(error)))
+                DispatchQueue.main.async {
+                    callback(.failure(.decoder(error)))
+                }
             }
             
         }.resume()
+    }
+    
+    public func getRequestTopHeadlines(urlParams: [String: String], callback: @escaping (Result<TopHeadlinesResponseObject, NewsApiError>) -> Void) {
+        
+        let url = self.endpoint(for: .topHeadlines, urlParams)
+        getRequest(url: url, callback: callback)
+
     }
     
     public func getRequestEverything(urlParams: [String: String], callback: @escaping (Result<EverythingResponseObject, NewsApiError>) -> Void) {
         
         let url = endpoint(for: .everything, urlParams)
-        
-        urlSession.dataTask(with: url ) { (data, response, error) in
-            debugPrint("NewsApi: \(response.debugDescription)")
-            guard error == nil else {
-                callback(.failure(.urlSession(error!)))
-                return
-            }
-            
-            guard let data = data else {
-                callback(.failure(.dataIsNil))
-                return
-            }
-
-            guard data.isEmpty == false else {
-                callback(.failure(.dataIsEmpty))
-                return
-            }
-            
-            do {
-                let response = try JSONDecoder().decode(EverythingResponseObject.self, from: data)
-                callback(.success(response))
-            } catch {
-                callback(.failure(.decoder(error)))
-            }
-            
-        }.resume()
+        getRequest(url: url, callback: callback)
     }
     
     public func getRequestSources(urlParams: [String:String], callback: @escaping (Result<SourcesResponseObject, NewsApiError>) -> Void) {
         
         let url = endpoint(for: .sources, urlParams)
-        
-        urlSession.dataTask(with: url) { (data, response, error) in
-            debugPrint("NewsApi: \(response.debugDescription)")
-            guard error == nil else {
-                callback(.failure(.urlSession(error!)))
-                return
-            }
-            
-            guard let data = data else {
-                callback(.failure(.dataIsNil))
-                return
-            }
-
-            guard data.isEmpty == false else {
-                callback(.failure(.dataIsEmpty))
-                return
-            }
-            
-            do {
-                let response = try JSONDecoder().decode(SourcesResponseObject.self, from: data)
-                callback(.success(response))
-            } catch {
-                callback(.failure(.decoder(error)))
-            }
-            
-        }.resume()
+        getRequest(url: url, callback: callback)
     }
     
 }
