@@ -19,9 +19,7 @@ class EverythingTableViewDataSource: NSObject, UITableViewDataSource {
     
     var dataSource: EverythingResponseObject? {
         didSet {
-            DispatchQueue.main.async {
-                self.tableView?.reloadData()
-            }
+            self.tableView?.reloadData()
         }
     }
     
